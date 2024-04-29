@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Setup Environment') {
+            steps {
+                sh 'echo "Setting up environment..."'
+                // Зависимости устанавливаются в Dockerfile
+            }
+        ｝
+        stage('DownLoad Data') {
+            steps {
+                sh 'python3 data_creation.py'
+            }
+        ｝
+        stage('Preprocess Data') {
+            steps {
+                sh 'python3 model_preprocessing.py'
+            }
+        }
+        stage('Train Model') {
+            steps｛
+                sh 'python3 model_preparation.py'
+            }
+        }
+        stage('Test Model') {
+            steps {
+                sh 'python3 model_testing.py'
+            }
+        }
+    }
+    post {
+        always｛
+            sh 'echo "Pipeline completed."'
+        }
+    }
+}
